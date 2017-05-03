@@ -1,1 +1,13 @@
-main.css
+* {
+	border-style: border-box;
+	font-family: 'Roboto', sans-serif;
+}
+
+.hidden {
+    visibility: hidden;
+}
+
+body {
+	background-color: #000000;
+}
+
