@@ -14,7 +14,9 @@ notesSchema.methods.apiRepr = function(type) {
   if (type === 'listview') {
     return {
       ID: this._id,
-      Title: this.Title
+      Title: this.Title,
+      Body: this.Body,
+      Username: this.Username
     }
   }
   return {

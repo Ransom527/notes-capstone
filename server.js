@@ -18,6 +18,7 @@ const note = require('./models/noteModels');
 app.use(morgan('common'));
 app.use(jsonParser);
 app.use(urlParser);
+app.use(express.static('public'));
 
 
 app.get('/getnotes', (req, res) => {
@@ -53,7 +54,45 @@ app.get('/getnote', (req, res) => {
 
 
 //Add note
+app.post('/addnote', (req, res) => {
+	note
+		.create({
+			Title: req.body.Title,
+			Body: req.body.Body,
+			Username: req.body.Username
+		})
+		.then((post) => {
+			console.log(post);
+			res.status(201).json(post.apiRepr().ID);
+		})
+		.catch(err => {
+			console.error(err);
+			res.status(500).json({
+				error: 'something went terribly wrong'
+			});
+		});
+});
+
+
+//JSON.stringify
 //Update note
+app.post('/updatenote', (req, res) => {
+	console.log(req.body);
+	note
+		.findByIdAndUpdate(req.body.ID,{$set:{Title:req.body.Title,Body:req.body.Body,Username:req.body.Username}}, {new: true})
+		.exec()
+		.then(() => {
+			res.status(200).json({
+				message: 'success'
+			});
+		})
+		.catch(err => {
+			console.error(err);
+			res.status(500).json({
+				error: 'something went terribly wrong'
+			});
+		});
+});
 
 
 app.delete('/deletenote', (req, res) => {
